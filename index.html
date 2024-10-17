@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>İrem Aday</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <div class="sidebar-box">
+                <li><a href="index.html">Home</a></li>
+            </div>
+            <div class="sidebar-box">
+                <li><a href="education.html">Education</a></li>
+            </div>
+            <div class="sidebar-box">
+                <li><a href="experience.html">Experience</a></li>
+            </div>
+            <div class="sidebar-box">
+                <li><a href="technologies.html">Technologies</a></li>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="profile-picture">
+                <img src="profile.png" alt="Profile Picture">
+            </div>
+            <div class="about-title">
+                <h1>About Me</h1>
+            </div>
+            <div class="about-text">
+                <p>My name is İrem and I was born on August 8, 2002, in Ankara. Currently, I am majoring in Geomatics Engineering. Within this major, I become familiar with photogrammetry, geodesy, and GIS technologies.</p>
+            </div>
+            <div class="download-button">
+                <button id="download-btn">Download CV</button>
+            </div>
+
+            <div class="footer-buttons">
+                <a href="#" class="footer-button" data-title="+90 545 900 85 92">
+                    <img src="phone.png" alt="phone">
+                </a>
+                <a href="#" class="footer-button" data-title="aday.w.irem@gmail.com">
+                    <img src="mail.jpg" alt="mail">
+                </a>
+                <a href="#" class="footer-button" data-title="https://www.linkedin.com/in/irem-aday-6285ba277/">
+                    <img src="linkedin.png" alt="linkedin">
+                </a>
+                <a href="#" class="footer-button" data-title="https://github.com/irem-pg">
+                    <img src="github.jpg" alt="github">
+                </a>
+            </div>
+            <div class="sliding-text hide"></div> <!-- Sliding text element positioned below buttons -->
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('download-btn').addEventListener('click', function() {
+            const a = document.createElement('a');
+            a.href = '/CV.pdf'; // Path to the file on your server
+            a.download = 'CV.pdf'; // The name of the file to be downloaded
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        });
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const slidingText = document.querySelector('.sliding-text');
+            const footerButtons = document.querySelectorAll('.footer-button');
+
+            footerButtons.forEach(button => {
+                button.addEventListener('click', function (event) {
+                    event.preventDefault();
+
+                    const text = button.getAttribute('data-title');
+
+                    // Check if the text contains a URL and create a clickable link
+                    if (text.startsWith('http') || text.includes('www')) {
+                        slidingText.innerHTML = `<a href="${text}" target="_blank">${text}</a>`;
+                    } else {
+                        slidingText.textContent = text; // No link, just display text
+                    }
+
+                    // Position the sliding text below the footer buttons
+                    const rect = button.getBoundingClientRect();
+                    slidingText.style.left = `${rect.left}px`;
+                    slidingText.style.top = `${rect.bottom + window.scrollY + 10}px`;
+
+                    // Show the sliding text
+                    slidingText.classList.remove('hide');
+                    slidingText.classList.add('show');
+
+                    // Hide the text when clicking anywhere else in the document
+                    document.addEventListener('click', function hideText(event) {
+                        if (!button.contains(event.target) && !slidingText.contains(event.target)) {
+                            slidingText.classList.remove('show');
+                            slidingText.classList.add('hide');
+                            document.removeEventListener('click', hideText);
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>
